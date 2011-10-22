@@ -23,21 +23,6 @@ module ScheduleAtts
     options[:date]       &&= ScheduleAttributes.parse_in_timezone(options[:date])
     options[:until_date] &&= ScheduleAttributes.parse_in_timezone(options[:until_date])
 
-    # Weekly rules need a weekday. Set it to today if none is set.
-    if options[:interval_unit] == 'week'
-      has_day = false
-      DAY_NAMES.each do |day|
-        if options[day]
-          has_day = true
-        end
-      end
-
-      if !has_day
-        today = Date.today.strftime('%A').downcase.to_sym
-        options[today] = 1
-      end
-    end
-
     if options[:repeat].to_i == 0
       @schedule = IceCube::Schedule.new(options[:date])
       @schedule.add_recurrence_date(options[:date])
