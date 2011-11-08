@@ -34,9 +34,8 @@ module ScheduleAtts
           IceCube::Rule.daily options[:interval]
         when 'week'
           IceCube::Rule.weekly(options[:interval]).day( *IceCube::DAYS.keys.select{|day| options[day].to_i == 1 } )
-        # TODO: Doesn't work
         when 'month'
-          IceCube::Rule.monthly(options[:interval]).day( *IceCube::DAYS.keys.select{|day| options[day].to_i == 1 } )
+          IceCube::Rule.monthly options[:interval]
       end
 
       rule.until(options[:until_date]) if options[:ends] == 'eventually'
@@ -66,6 +65,8 @@ module ScheduleAtts
         rule_hash[:validations][:day].each do |day_idx|
           atts[ DAY_NAMES[day_idx] ] = 1
         end
+      when IceCube::MonthlyRule
+        atts[:interval_unit] = 'month'
       end
 
       if rule.until_date
