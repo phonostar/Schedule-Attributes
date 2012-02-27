@@ -1,3 +1,4 @@
+require 'active_support/all'
 require 'ice_cube'
 require 'time'
 require 'ostruct'
