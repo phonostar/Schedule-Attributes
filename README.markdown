@@ -2,6 +2,8 @@
 
 Schedule Attributes allows models (ORM agnostic) to accept recurring schedule form parameters and translate them into an [IceCube](https://github.com/seejohnrun/ice_cube/) `Schedule` object. Schedule Attributes adds `#schedule_attributes` and `#schedule_attributes=` methods that let your model automatically populate Rails forms and receive HTML form parameters. Additionally, it provides access to the `IceCube::Schedule` object itself.
 
+**Note**: This is a fork of [ableGray/Schedule-Attributes](https://github.com/ableGray/Schedule-Attributes) that has been updated for compatibility with the latest release of ice_cube.
+
 ## Usage
 
 To use, include the `ScheduleAttributes` module in your model class.
