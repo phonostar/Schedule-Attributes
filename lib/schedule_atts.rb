@@ -21,6 +21,7 @@ module ScheduleAtts
     options[:start_date] &&= ScheduleAttributes.parse_in_timezone(options[:start_date])
     options[:date]       &&= ScheduleAttributes.parse_in_timezone(options[:date])
     options[:until_date] &&= ScheduleAttributes.parse_in_timezone(options[:until_date])
+    options[:weeks_of_month] ||=[1]
 
     if options[:repeat].to_i == 0
       @schedule = IceCube::Schedule.new(options[:date])
@@ -33,8 +34,14 @@ module ScheduleAtts
           IceCube::Rule.daily options[:interval]
         when 'week'
           IceCube::Rule.weekly(options[:interval]).day( *IceCube::TimeUtil::DAYS.keys.select{|day| options[day].to_i == 1 } )
-        when 'month'
-          IceCube::Rule.monthly options[:interval]
+        #when 'month'
+        #  IceCube::Rule.monthly options[:interval].day( *IceCube::TimeUtil::DAYS.keys.select{|day| options[day].to_i == 1 } )
+        when 'week_month'
+          days = *IceCube::TimeUtil::DAYS.keys.select{|das| options[day].to_i == 1 }
+          rule = IceCube::Rule.monthly(options[:interval])
+          days.each do |day|
+            rule.day_of_week(day => options[:week_of_month]
+          end
       end
 
       rule.until(options[:until_date]) if options[:ends] == 'eventually'
@@ -50,7 +57,7 @@ module ScheduleAtts
 
     if rule = schedule.rrules.first
       atts[:repeat]     = 1
-      atts[:start_date] = schedule.start_time.to_date
+      atts[:start_date] = schedule.start_time ? schedule.start_time.to_date : Date.today
       atts[:date]       = Date.today # for populating the other part of the form
 
       rule_hash = rule.to_hash
@@ -76,7 +83,7 @@ module ScheduleAtts
       end
     else
       atts[:repeat]     = 0
-      atts[:date]       = schedule.start_time.to_date
+      atts[:date]       = schedule.start_time ? schedule.start_time.to_date : Date.today
       atts[:start_date] = Date.today # for populating the other part of the form
     end
 
