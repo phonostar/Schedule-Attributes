@@ -42,6 +42,7 @@ module ScheduleAtts
           days.each do |day|
             rule.day_of_week(day => options[:week_of_month]
           end
+          rule
       end
 
       rule.until(options[:until_date]) if options[:ends] == 'eventually'
