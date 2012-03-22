@@ -40,7 +40,7 @@ module ScheduleAtts
           days = *IceCube::TimeUtil::DAYS.keys.select{|day| options[day].to_i == 1 }
           rule = IceCube::Rule.monthly(options[:interval])
           days.each do |day|
-            rule.day_of_week(day => options[:week_of_month])
+            rule.day_of_week(day => options[:weeks_of_month])
           end
           rule
       end
@@ -72,9 +72,9 @@ module ScheduleAtts
         rule_hash[:validations][:day].each do |day_idx|
           atts[ DAY_NAMES[day_idx] ] = 1
         end
-      when IceCube::MonthlyRule
-        atts[:interval_unit] = 'month'
-      end
+      #when IceCube::MonthlyRule
+      #  atts[:interval_unit] = 'month'
+      #end
 
       if rule.until_time
         atts[:until_date] = rule.until_time.to_date
