@@ -37,7 +37,7 @@ module ScheduleAtts
         #when 'month'
         #  IceCube::Rule.monthly options[:interval].day( *IceCube::TimeUtil::DAYS.keys.select{|day| options[day].to_i == 1 } )
         when 'week_month'
-          days = *IceCube::TimeUtil::DAYS.keys.select{|das| options[day].to_i == 1 }
+          days = *IceCube::TimeUtil::DAYS.keys.select{|day| options[day].to_i == 1 }
           rule = IceCube::Rule.monthly(options[:interval])
           days.each do |day|
             rule.day_of_week(day => options[:week_of_month])
