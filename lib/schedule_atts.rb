@@ -72,9 +72,10 @@ module ScheduleAtts
         rule_hash[:validations][:day].each do |day_idx|
           atts[ DAY_NAMES[day_idx] ] = 1
         end
+      # removed for phonostar use
       #when IceCube::MonthlyRule
       #  atts[:interval_unit] = 'month'
-      #end
+      end
 
       if rule.until_time
         atts[:until_date] = rule.until_time.to_date
